@@ -17,9 +17,7 @@ public class App
     private final ObjectMapper mapper = new ObjectMapper();
 
     public static void main( String[] args ) throws IOException {
-
         App app = new App();
-
         app.run();
     }
 

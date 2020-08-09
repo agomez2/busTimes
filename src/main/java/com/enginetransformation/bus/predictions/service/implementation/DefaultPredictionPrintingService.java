@@ -2,14 +2,14 @@ package com.enginetransformation.bus.predictions.service.implementation;
 
 import com.enginetransformation.bus.predictions.service.PredictionPrintingService;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class DefaultPredictionPrintingService implements PredictionPrintingService {
-
 
     public void print(List<Map<String, String>> predictions) {
         predictions
@@ -30,9 +30,14 @@ public class DefaultPredictionPrintingService implements PredictionPrintingServi
     }
 
     private String printTime(String iso8601Date) {
-        LocalDateTime localDateTime = LocalDateTime.parse(iso8601Date, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return formatter.format(localDateTime);
+        Instant instant = Instant.parse(iso8601Date);
+
+        DateTimeFormatter formatter = DateTimeFormatter
+                .ofLocalizedDateTime( FormatStyle.SHORT )
+                .withLocale( Locale.UK )
+                .withZone( ZoneId.systemDefault() );
+
+        return formatter.format(instant);
     }
 
 
